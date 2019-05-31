@@ -5,7 +5,7 @@ By Brenda Okumu
 Description
 https://brendaokumu.github.io/blackjack-js/
 
-blackjack-js-app is an application that displays a poker game and determines the winner between two game players.
+Blackjack-js-app is an application that displays a poker game and determines the winner between two game players.
 
 Setup/Installation Requirements
 To pull the application and perform changes, kindly perform...
@@ -19,6 +19,7 @@ Type git clone, and then paste the URL you copied in Step 2.
 Press Enter. Your local clone will be created.
 
 Technologies Used
+
 JavaScript
 
 Support and contact details
