@@ -22,15 +22,15 @@ let suits = ["Hearts", "Clubs", "Diamonds", "Spades"]; //4 suits in the deck
 
 let values = [ "Ace", "King", "Queen", "Jack", "Ten", "Nine", "Eight", "Seven", "Six", "Five", "Four", "Three", "Two" ]; //13 card values
 
-let textArea = document.getElementById("text-area");    //gives main info to user, cards dealt and points, etc
+let textArea = document.getElementById("text-area");    //gives main info to user, cards dealt and points, winner/loser, etc
 let newGameButton = document.getElementById("new-game-button");
 let hitButton = document.getElementById("hit-button");
 let stayButton = document.getElementById("stay-button");
 
-hitButton.style.display = "none";
+hitButton.style.display = "none";   //starting out with our new game button only; hiding hit and stay buttons at the beginning.
 stayButton.style.display = "none";
 
-newGameButton.addEventListener("click", function() {
+newGameButton.addEventListener("click", function() {    //what we want to happen when user clicks new game button is to hid new gamebutton var and display hit and stay button inline with the text above as Started. 
   textArea.innerText = "Started...";
   newGameButton.style.display = "none";
   hitButton.style.display = "inline";
