@@ -1,6 +1,7 @@
 
 BlackJack JavaScript App, 1-06-2019
 By Brenda Okumu
+
 Description
 https://brendaokumu.github.io/blackjack-js/
 
