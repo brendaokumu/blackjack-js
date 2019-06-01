@@ -41,7 +41,6 @@ let gameStarted = false,
 hitButton.style.display = "none";   //starting out with our new game button only; hiding hit and stay buttons at the beginning.
 stayButton.style.display = "none";
 showStatus();     //ref below defined showStatus function
-}
 
 newGameButton.addEventListener("click", function() {    //what we want to happen when user clicks new game button is to hid new gamebutton var and display hit and stay button inline with the text above as Started.
   gameStarted = true;
@@ -56,6 +55,18 @@ newGameButton.addEventListener("click", function() {    //what we want to happen
   newGameButton.style.display = "none";
   hitButton.style.display = "inline";
   stayButton.style.display = "inline";
+  showStatus();
+});
+
+hitButton.addEventListener("click", function() {
+  playerCards.push(getNextCard());    //when the player clicks hit, they want another card so we call getNextCard and push that onto playerCards
+  checkForEndOfGame();    //its possible that the player with their new card went over 21 and lost the game; go that function then show status again and update our text area
+  showStatus();
+});
+
+stayButton.addEventListener("click", function() {     //we are done taking cards and the game is effectively over.
+  gameOver = true;
+  checkForEndOfGame();    //the dealer still has the option of taking cards then update text area with showStatus
   showStatus();
 });
 
@@ -93,13 +104,128 @@ function getNextCard(){ //get the next card off the top of the deck
   return deck.shift(); //take the 1st value of the deck and shift down the other values in the array.
 }
 
+function getCardNumericValue(card) {    //but if the card.value is 10, Jack, Queen or King it return 10 thus default block will be executed.
+  switch(card.value) {
+    case 'Ace':
+      return 1;
+    case 'Two':
+      return 2;
+    case 'Three':
+      return 3;
+    case 'Four':
+      return 4;
+    case 'Five':
+      return 5;
+    case 'Six':
+      return 6;
+    case 'Seven':
+      return 7;
+    case 'Eight':
+      return 8;
+    case 'Nine':
+      return 9;
+    default:
+      return 10;
+  }
+}
+
+function getScore(cardArray) {        //we are passing an array of cards in the getscore function.
+  let score = 0;      //initialize score to zero.
+  let hasAce = false;     //important to know if the player has an Ace/not for if yes, she adds 10more points to the score. An Ace is usually 1 or 11points.
+  for (let i =0; i < cardArray.length; i++) {   //loop through all the cards as long as i is less than cardArray.length  will execute the block of code till ...true
+    let card = cardArray[i];      //will take cardArray i and then assign it to card then call getCardNumericValue and pass it the card and get back a new value of that card and add that to score.
+    score += getCardNumericValue(card);       //score will increment as each card is read.
+    if (card.value === 'Ace') {         //and if the card.value is an Ace then hasAce equals true.
+      hasAce = true;
+    }
+  }
+  if (hasAce && score + 10 <= 21) {     //both hasAce and score have to meet the criteria.
+    return score + 10;
+  }
+  return score;    // returning score thus getting the score out of this function.
+}
+
+function updateScores() {
+  dealerScore = getScore(dealerCards);      //setting dealerScore to a function called getScore and passing dealerCards to it.
+  playerScore = getScore(playerCards);
+}
+
+function checkForEndOfGame() {
+
+  updateScores();       // call update scores to check if scores are current
+
+  if (gameOver) {     //if game is over we want to give the dealer the option of taking cards
+    //let dealer take cards
+    while (dealerScore < playerScore    //while the dealerscore is less than playerscore meaning dealer is loosing and pscore is less than/equal to 21 and dscore is less than/equal to 21 ; we want to give the dealer a new card and update scores as well.
+      && playerScore <=21
+      && dealerScore <=21) {
+    dealerCards.push(getNextCard());
+    updateScores();
+    }
+  }
+
+  if (playerScore > 21) {     //if pscore is greater than 21 then the player lost and game is over else if the dscore is greater than 21 then the player won and game over.
+    playerWon = false;
+    gameOver = true;
+  }
+  else if (dealerScore > 21) {
+    playerWon = true;
+    gameOver = true;
+  }
+  else if (playerScore === 21) {
+    playerWon = true;
+    gameOver = true;
+  }
+  else if (gameOver) {    //else if game is over we want to determine who won and if pscore is greater than dscore then player won else false.
+
+    if (playerScore > dealerScore) {
+      playerWon = true;
+    }
+    else if (playerScore === dealerScore) {
+      textArea.innerText += "SORRY IT IS A TIE; NOBODY WINS";
+    }
+    else {
+      playerWon = false;
+    }
+  }
+}
+
 function showStatus() {   //set up the innerText of the textArea with welcome to blackjack if game not started.
   if (!gameStarted) {
     textArea.innerText = "Welcome to Blackjack!";
     return;
   }
 
-for (var i=0; i < deck.length; i++) {     //loop through the entire deck and going to populate out textArea.innerText with string values of the entire deck.
-    textArea.innerText += '\n' + getCardString(deck[i]);
+  let dealerCardString = " ";
+  for (let i=0; i < dealerCards.length; i++) {
+      dealerCardString += getCardString(dealerCards[i]) + '\n';
+  }   //a string form of all the dealers cards, loop through them and for each card we append the string version of the card along with a new line character thus each card on its own line.
+
+  let playerCardString = " ";
+  for (let i=0; i < playerCards.length; i++) {
+      playerCardString += getCardString(playerCards[i]) + '\n';
+  }
+
+  updateScores();   //look up
+
+  textArea.innerText =
+  "Dealer has:\n" +
+  dealerCardString +
+  "(score: "+dealerScore + ")\n\n" +
+
+  "Player has:\n" +
+    playerCardString +
+  "(score: "+playerScore + ")\n\n";     //changing innerText textArearea to display now this and not the welcome to bj message
+
+  if (gameOver) {           //checking if game over and print out message of winner and then show new game button
+    if (playerWon) {
+      textArea.innerText += "YOU WIN!";
+    }
+    else {
+      textArea.innerText += "DEALER WINS";
+    }
+    newGameButton.style.display = "inline";
+    hitButton.style.display = "none";
+    stayButton.style.display = "none";
   }
 }
