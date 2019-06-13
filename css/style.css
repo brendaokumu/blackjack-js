@@ -1,0 +1,30 @@
+body {
+  background-color: green;
+  font-size: 22px;
+}
+#title {
+  text-align: center;
+}
+h4 {
+  text-align: center;
+}
+#text-area {
+  text-align: center;
+}
+#new-game-button {
+  color: black;
+  padding: 12px 28px;
+  text-align: center;
+  margin-left: 600px;
+}
+#hit-button {
+  color: black;
+  padding: 12px 28px;
+  text-align: center;
+  margin-left: 600px;
+}
+#stay-button {
+  color: black;
+  padding: 12px 28px;
+  text-align: center;
+}
