@@ -3,6 +3,10 @@ body {
   background-repeat: no-repeat;
   font-size: 22px;
   color: #ff5e00;
+  background-attachment: fixed;
+  background-position: center center;
+  background-size: cover;
+  height: 100%;
 }
 #title {
   padding-left: 30px;
@@ -20,6 +24,8 @@ h3 {
   margin-left: 600px;
   text-transform: uppercase;
   border-radius: 8px;
+  display: block;
+  margin: auto;
 }
 
 #new-game-button:hover {
@@ -34,6 +40,8 @@ h3 {
   margin-left: 600px;
   text-transform: uppercase;
   border-radius: 8px;
+  display: block;
+  margin: auto;
 }
 
 #hit-button:hover {
@@ -47,9 +55,15 @@ h3 {
   text-align: center;
   text-transform: uppercase;
   border-radius: 8px;
+  display: block;
+  margin: auto;
 }
 
 #stay-button:hover {
   cursor: grabbing;
   background-color: red;
+}
+
+@media screen and (max-width: 768px) {
+
 }
